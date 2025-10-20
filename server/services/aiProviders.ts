@@ -184,15 +184,31 @@ function buildRewritePrompt(params: {
 
   let prompt = ``;
 
-  // PUT CUSTOM INSTRUCTIONS AT THE VERY TOP AS ABSOLUTE REQUIREMENTS
+  // BASELINE REQUIREMENTS - ALWAYS APPLY TO EVERY REWRITE
+  prompt += `═══════════════════════════════════════════════════════════════
+⚠️  MANDATORY BASELINE REQUIREMENTS - ALWAYS APPLY ⚠️
+═══════════════════════════════════════════════════════════════
+
+1. NO PARAGRAPH MAY EXCEED FOUR SENTENCES
+2. NEVER GUT OR DETERIORATE CONTENT
+3. LENGTH MUST BE PRESERVED OR INCREASED (NEVER SHORTENED)
+4. SENTENCES MUST BE SHORT AND CONCISE
+
+These are NON-NEGOTIABLE baseline rules for every rewrite.
+
+═══════════════════════════════════════════════════════════════
+
+`;
+
+  // PUT CUSTOM INSTRUCTIONS AFTER BASELINE REQUIREMENTS
   if (hasCustomInstructions) {
     prompt += `═══════════════════════════════════════════════════════════════
-⚠️  ABSOLUTE NON-NEGOTIABLE REQUIREMENTS - FOLLOW EXACTLY ⚠️
+⚠️  ADDITIONAL USER REQUIREMENTS - FOLLOW EXACTLY ⚠️
 ═══════════════════════════════════════════════════════════════
 
 ${params.customInstructions}
 
-These requirements are MANDATORY and OVERRIDE all other instructions below.
+These additional requirements are MANDATORY and OVERRIDE style matching below.
 If there is ANY conflict between these requirements and style matching, 
 these requirements WIN. NO EXCEPTIONS.
 
