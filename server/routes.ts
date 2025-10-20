@@ -2832,11 +2832,15 @@ ${currentSolution}
 USER FEEDBACK:
 ${feedback}
 
+CRITICAL REQUIREMENT: You must provide the COMPLETE FULL SOLUTION from start to finish. DO NOT say "other sections remain as before" or "previous content stays the same" or anything similar. INCLUDE EVERYTHING - both unchanged material and new/improved material - in your response.
+
 IMPORTANT: You must respond with ONLY the improved solution. Do NOT provide analysis, commentary, or explanations about what you changed. Simply provide the refined solution text directly.
 
 Requirements:
+- OUTPUT THE ENTIRE COMPLETE SOLUTION (not just changes)
 - Keep good parts that weren't criticized
-- Address all feedback points`;
+- Address all feedback points
+- NEVER say "other sections remain as before" - INCLUDE ALL SECTIONS`;
 
       if (contentType === 'math') {
         refinementPrompt += `
