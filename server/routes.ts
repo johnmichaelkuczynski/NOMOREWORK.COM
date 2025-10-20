@@ -2832,11 +2832,26 @@ ${currentSolution}
 USER FEEDBACK:
 ${feedback}
 
-CRITICAL REQUIREMENT: You must provide the COMPLETE FULL SOLUTION from start to finish. DO NOT say "other sections remain as before" or "previous content stays the same" or anything similar. INCLUDE EVERYTHING - both unchanged material and new/improved material - in your response.
+CRITICAL REQUIREMENTS - FOLLOW EXACTLY:
 
-IMPORTANT: You must respond with ONLY the improved solution. Do NOT provide analysis, commentary, or explanations about what you changed. Simply provide the refined solution text directly.
+1. PROVIDE THE COMPLETE FULL SOLUTION FROM START TO FINISH
+   - DO NOT say "other sections remain as before" or "previous content stays the same"
+   - INCLUDE EVERYTHING - both unchanged material and new/improved material
+   - OUTPUT THE ENTIRE COMPLETE SOLUTION (not just changes)
+
+2. FOLLOW USER'S EXPLICIT INSTRUCTIONS EXACTLY
+   - If user says "preserve all existing content" - PRESERVE ALL CONTENT
+   - If user says "do not decrease length" - MAINTAIN OR INCREASE LENGTH
+   - If user says "keep paragraphs short" - KEEP PARAGRAPHS SHORT
+   - If user says "maintain quality" - MAINTAIN OR IMPROVE QUALITY
+   - User instructions OVERRIDE all other considerations
+
+3. RESPOND WITH ONLY THE IMPROVED SOLUTION
+   - Do NOT provide analysis, commentary, or explanations about what you changed
+   - Simply provide the refined solution text directly
 
 Requirements:
+- FOLLOW USER'S EXPLICIT LENGTH/CONTENT INSTRUCTIONS EXACTLY
 - OUTPUT THE ENTIRE COMPLETE SOLUTION (not just changes)
 - Keep good parts that weren't criticized
 - Address all feedback points
