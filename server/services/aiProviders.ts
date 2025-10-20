@@ -177,13 +177,31 @@ function buildRewritePrompt(params: {
 }): string {
   const hasStyle = !!(params.styleText && params.styleText.trim() !== "");
   const hasContent = !!(params.contentMixText && params.contentMixText.trim() !== "");
+  const hasCustomInstructions = !!(params.customInstructions && params.customInstructions.trim() !== "");
   
   // Use provided styleText, or fall back to first available style sample
   const styleSample = hasStyle ? params.styleText! : Object.values(STYLE_SAMPLES)[0];
 
-  let prompt = `Your task is to rewrite the input text using the exact writing style demonstrated in the style sample below.
+  let prompt = ``;
 
-CRITICAL: You must deeply analyze and adopt ALL stylistic elements from this sample:
+  // PUT CUSTOM INSTRUCTIONS AT THE VERY TOP AS ABSOLUTE REQUIREMENTS
+  if (hasCustomInstructions) {
+    prompt += `═══════════════════════════════════════════════════════════════
+⚠️  ABSOLUTE NON-NEGOTIABLE REQUIREMENTS - FOLLOW EXACTLY ⚠️
+═══════════════════════════════════════════════════════════════
+
+${params.customInstructions}
+
+These requirements are MANDATORY and OVERRIDE all other instructions below.
+If there is ANY conflict between these requirements and style matching, 
+these requirements WIN. NO EXCEPTIONS.
+
+═══════════════════════════════════════════════════════════════
+
+`;
+  }
+
+  prompt += `Your task is to rewrite the input text using the exact writing style demonstrated in the style sample below.
 
 STYLE SAMPLE TO EMULATE:
 "${styleSample}"
@@ -203,31 +221,10 @@ STYLE ANALYSIS REQUIREMENTS:
 
 7. RHETORICAL DEVICES: Identify any characteristic use of questions, analogies, repetition, or other stylistic techniques.
 
-REWRITE INSTRUCTIONS:
-
-PRIORITY #1 - FOLLOW USER'S EXPLICIT INSTRUCTIONS EXACTLY:
-If custom instructions specify ANY of the following, you MUST obey them EXACTLY:
-- "preserve all existing content" → PRESERVE ALL CONTENT, DO NOT CUT ANYTHING
-- "do not decrease length" → OUTPUT MUST BE SAME LENGTH OR LONGER
-- "do not increase length" → OUTPUT MUST BE SAME LENGTH OR SHORTER  
-- "keep paragraphs short" / "keep paragraphs extremely short" → USE SHORT PARAGRAPHS
-- "maintain quality" → MAINTAIN OR IMPROVE QUALITY
-- Any other explicit user requirement → FOLLOW IT EXACTLY
-
-PRIORITY #2 - CONTENT PRESERVATION:
+CONTENT PRESERVATION:
 - Maintain the original content and meaning of the input text
-- DO NOT remove, condense, or summarize content unless user explicitly requests it
-- If input is 83 lines, output should be approximately 83 lines (unless user specifies otherwise)
-
-PRIORITY #3 - STYLE MATCHING:
-- Transform EVERY aspect of expression to match the style sample exactly
-- Use the same sentence patterns, vocabulary level, tone, and flow as the sample
-- Adopt the sample's characteristic way of connecting ideas and structuring arguments
-- Mirror the sample's punctuation patterns and paragraph structure
-- If the sample uses specific rhetorical devices, incorporate similar ones appropriately
-- The result should sound like it was written by the same author as the style sample
-
-USER INSTRUCTIONS OVERRIDE STYLE MATCHING. If there's conflict, user instructions win.
+- DO NOT remove, condense, or summarize content unless explicitly required by the ABSOLUTE REQUIREMENTS above
+- Preserve the full length and scope of the input
 
 `;
 
@@ -235,10 +232,15 @@ USER INSTRUCTIONS OVERRIDE STYLE MATCHING. If there's conflict, user instruction
     prompt += `CONTENT INTEGRATION: Judiciously weave in relevant ideas, examples, and details from this reference material while maintaining the target style:\n"${params.contentMixText}"\n\n`;
   }
 
-  // <<< PRESETS/APPLIED INSTRUCTIONS HERE >>>
-  prompt += buildPresetBlock(params.selectedPresets, params.customInstructions);
+  // Add preset instructions (but NOT custom instructions - those are already at the top)
+  const expanded = expandPresets(params.selectedPresets || []);
+  if (expanded.length > 0) {
+    const lines: string[] = [];
+    expanded.forEach(name => { lines.push(`- ${PRESET_TEXT[name]}`); });
+    prompt += `Additional style presets to apply:\n${lines.join("\n")}\n\n`;
+  }
 
-  prompt += `INPUT TEXT TO REWRITE:\n"${params.inputText}"\n\nProduce only the rewritten text, maintaining the original meaning while fully adopting the style sample's characteristics:`;
+  prompt += `INPUT TEXT TO REWRITE:\n"${params.inputText}"\n\nProduce only the rewritten text. Remember: ABSOLUTE REQUIREMENTS at the top are MANDATORY and override everything else.`;
   return prompt;
 }
 
