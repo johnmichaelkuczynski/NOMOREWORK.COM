@@ -204,13 +204,30 @@ STYLE ANALYSIS REQUIREMENTS:
 7. RHETORICAL DEVICES: Identify any characteristic use of questions, analogies, repetition, or other stylistic techniques.
 
 REWRITE INSTRUCTIONS:
+
+PRIORITY #1 - FOLLOW USER'S EXPLICIT INSTRUCTIONS EXACTLY:
+If custom instructions specify ANY of the following, you MUST obey them EXACTLY:
+- "preserve all existing content" → PRESERVE ALL CONTENT, DO NOT CUT ANYTHING
+- "do not decrease length" → OUTPUT MUST BE SAME LENGTH OR LONGER
+- "do not increase length" → OUTPUT MUST BE SAME LENGTH OR SHORTER  
+- "keep paragraphs short" / "keep paragraphs extremely short" → USE SHORT PARAGRAPHS
+- "maintain quality" → MAINTAIN OR IMPROVE QUALITY
+- Any other explicit user requirement → FOLLOW IT EXACTLY
+
+PRIORITY #2 - CONTENT PRESERVATION:
 - Maintain the original content and meaning of the input text
+- DO NOT remove, condense, or summarize content unless user explicitly requests it
+- If input is 83 lines, output should be approximately 83 lines (unless user specifies otherwise)
+
+PRIORITY #3 - STYLE MATCHING:
 - Transform EVERY aspect of expression to match the style sample exactly
 - Use the same sentence patterns, vocabulary level, tone, and flow as the sample
 - Adopt the sample's characteristic way of connecting ideas and structuring arguments
 - Mirror the sample's punctuation patterns and paragraph structure
 - If the sample uses specific rhetorical devices, incorporate similar ones appropriately
 - The result should sound like it was written by the same author as the style sample
+
+USER INSTRUCTIONS OVERRIDE STYLE MATCHING. If there's conflict, user instructions win.
 
 `;
 
